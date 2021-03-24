@@ -1,0 +1,2 @@
+Testando a escrita de um arquivo
+Conteudo da proxima linha
