@@ -17,7 +17,7 @@ public class RepositorioDeProdutos {
 		autor.setCpf("123.456.789-10");
 		
 		Livro livro = new LivroFisico(autor);
-		livro.setNome("Java 8 Pr·tico");
+		livro.setNome("Java 8 Pr√°tico");
 		livro.setDescricao("Novos recursos da linguagem");
 		livro.setValor(59.90);
 		livro.setIsbn("978-85-66250-46-6");
@@ -34,7 +34,7 @@ public class RepositorioDeProdutos {
 		autor.setCpf("123.456.789-10");
 		
 		Livro outroLivro = new LivroFisico(outroAutor);
-		outroLivro.setNome("LÛgica de programaÁ„o");
+		outroLivro.setNome("L√≥gica de programa√ß√£o");
 		outroLivro.setDescricao("Crie seus primeiros programas");
 		outroLivro.setValor(59.90);
 		outroLivro.setIsbn("978-85-66250-22-0");

@@ -1,11 +1,14 @@
 package application;
 	
+import java.io.IOException;
+
 import br.com.casadocodigo.livraria.produtos.Produto;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 import repositorio.RepositorioDeProdutos;
+import threads.ExportadorCSV;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class Main extends Application {
@@ -32,7 +36,7 @@ public class Main extends Application {
 		nomeColumn.setMinWidth(180);
 		nomeColumn.setCellValueFactory( new PropertyValueFactory("nome"));
 		
-		TableColumn descricaoColumn = new TableColumn("Descrição");
+		TableColumn descricaoColumn = new TableColumn("DescriÃ§Ã£o");
 		descricaoColumn.setMinWidth(230);
 		descricaoColumn.setCellValueFactory( new PropertyValueFactory("descricao"));
 		
@@ -53,11 +57,24 @@ public class Main extends Application {
 		label.setFont(Font.font("Lucida grande", FontPosture.REGULAR, 30));
 		label.setPadding(new Insets( 20, 0, 10, 10));
 		
-		group.getChildren().addAll(label, vBox);
+		Button button = new Button("Exportando CSV");
+		button.setLayoutX(575);
+		button.setLayoutY(25);
+		button.setOnAction(event -> exportarEmCSV(produtos));
+			
+		group.getChildren().addAll(label, vBox, button);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Sistema da livraria com Java FX");
 		
 		primaryStage.show();
+	}
+	
+	private void exportarEmCSV(ObservableList<Produto> produtos) {
+		try{
+			new ExportadorCSV().paraCSV(produtos);
+		}catch(IOException e){
+			System.out.println("Erro ao exportar: "+ e);
+		}
 	}
 	
 	public static void main(String[] args) {
