@@ -36,7 +36,7 @@ public class Main extends Application {
 		nomeColumn.setMinWidth(180);
 		nomeColumn.setCellValueFactory( new PropertyValueFactory("nome"));
 		
-		TableColumn descricaoColumn = new TableColumn("DescriÃ§Ã£o");
+		TableColumn descricaoColumn = new TableColumn("Descrição");
 		descricaoColumn.setMinWidth(230);
 		descricaoColumn.setCellValueFactory( new PropertyValueFactory("descricao"));
 		
