@@ -17,10 +17,9 @@ public class RepositorioDeProdutos {
 	public ObservableList<Produto> lista(){
 	
 		ObservableList<Produto> produtos = FXCollections.observableArrayList();
-		Connection conn = new ConnectionFactory().getConnection();
-		PreparedStatement ps;
-		try{
-			ps = conn.prepareStatement("select * from produtos");
+		
+		try (Connection conn = new ConnectionFactory().getConnection()){
+			PreparedStatement ps = conn.prepareStatement("select * from produtos");
 			ResultSet resultSet = ps.executeQuery();
 			while(resultSet.next()){
 				LivroFisico livro = new LivroFisico(new Autor());
@@ -32,10 +31,22 @@ public class RepositorioDeProdutos {
 			}
 			resultSet.close();
 			ps.close();
-			conn.close();
 		}catch(SQLException e){
 			throw new RuntimeException(e);
 		}
 		return produtos;
 	}
+	
+	public void adiciona(Produto produto){
+		try (Connection conn = new ConnectionFactory().getConnection()){
+			PreparedStatement ps = conn.prepareStatement("insert into produtos (nome, descricao, valor, isbn) values (?, ?, ?, ?)");
+			ps.setString(1, produto.getNome());
+			ps.setString(2, produto.getDescricao());
+			ps.setDouble(3, produto.getValor());
+			ps.setString(4, produto.getIsbn());
+		}catch(SQLException e){
+			throw new RuntimeException(e);
+		}
+	}
+	
 }
