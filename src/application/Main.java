@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 
 import br.com.casadocodigo.livraria.produtos.Produto;
+import dao.ProdutoDAO;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -17,7 +18,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
-import repositorio.RepositorioDeProdutos;
 import threads.ExportadorCSV;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -28,7 +28,7 @@ public class Main extends Application {
 		Group group = new Group();
 		Scene scene = new Scene(group, 690, 510);
 		
-		ObservableList<Produto> produtos = new RepositorioDeProdutos().lista();
+		ObservableList<Produto> produtos = new ProdutoDAO().lista();
 		
 		TableView tableView = new TableView<>(produtos);
 		
@@ -36,7 +36,7 @@ public class Main extends Application {
 		nomeColumn.setMinWidth(180);
 		nomeColumn.setCellValueFactory( new PropertyValueFactory("nome"));
 		
-		TableColumn descricaoColumn = new TableColumn("Descrição");
+		TableColumn descricaoColumn = new TableColumn("DescriÃ§Ã£o");
 		descricaoColumn.setMinWidth(230);
 		descricaoColumn.setCellValueFactory( new PropertyValueFactory("descricao"));
 		

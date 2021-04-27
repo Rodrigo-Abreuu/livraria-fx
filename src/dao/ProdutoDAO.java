@@ -1,4 +1,4 @@
-package repositorio;
+package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import db.ConnectionFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class RepositorioDeProdutos {
+public class ProdutoDAO {
 
 	public ObservableList<Produto> lista(){
 	
@@ -26,7 +26,7 @@ public class RepositorioDeProdutos {
 				livro.setNome(resultSet.getString("nome"));
 				livro.setDescricao(resultSet.getString("descricao"));
 				livro.setValor(resultSet.getDouble("valor"));
-				livro.setIsbn(resultSet.getString("isbm"));
+				livro.setIsbn(resultSet.getString("isbn"));
 				produtos.add(livro);
 			}
 			resultSet.close();
