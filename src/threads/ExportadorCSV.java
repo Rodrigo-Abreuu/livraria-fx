@@ -6,7 +6,7 @@ import java.util.List;
 
 import br.com.casadocodigo.livraria.produtos.Produto;
 
-public class ExportadorCSV {
+public class ExportadorCSV implements Runnable{
 
 	public void paraCSV(List<Produto> produtos) throws IOException{
 		PrintStream ps = new PrintStream("produtos.csv");
@@ -21,6 +21,11 @@ public class ExportadorCSV {
 		}
 		
 		ps.close();
+	}
+
+	@Override
+	public void run() {
+		System.out.println("Rodando em paralelo");		
 	}
 	
 }

@@ -6,6 +6,7 @@ import br.com.casadocodigo.livraria.produtos.Produto;
 import dao.ProdutoDAO;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -57,18 +58,45 @@ public class Main extends Application {
 		label.setFont(Font.font("Lucida grande", FontPosture.REGULAR, 30));
 		label.setPadding(new Insets( 20, 0, 10, 10));
 		
+		Label progresso = new Label();
+		progresso.setLayoutX(385);
+		progresso.setLayoutY(30);
+		
 		Button button = new Button("Exportando CSV");
 		button.setLayoutX(575);
 		button.setLayoutY(25);
-		button.setOnAction(event -> exportarEmCSV(produtos));
+		button.setOnAction(event -> {
+			Task<Void> task = new Task<Void>() {
+				@Override
+				protected Void call() throws Exception {
+					dormePorVInteSegundos();
+					exportarEmCSV(produtos);	
+					return null;
+				}
+			};
 			
-		group.getChildren().addAll(label, vBox, button);
+			task.setOnRunning(e -> progresso.setText("Exportando..."));
+			
+			task.setOnSucceeded(e -> progresso. setText("Concluído"));
+			
+			new Thread(task).start();
+		});
+			
+		group.getChildren().addAll(label, vBox, button, progresso);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Sistema da livraria com Java FX");
 		
 		primaryStage.show();
 	}
 	
+	private void dormePorVInteSegundos() {
+		try {
+			Thread.sleep(20000);
+		} catch (InterruptedException e) {
+			System.out.println("Erro ao exportar: "+e);
+		}
+	}
+
 	private void exportarEmCSV(ObservableList<Produto> produtos) {
 		try{
 			new ExportadorCSV().paraCSV(produtos);
