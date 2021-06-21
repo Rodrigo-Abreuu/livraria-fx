@@ -7,7 +7,6 @@ import dao.ProdutoDAO;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,8 +15,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.stage.Stage;
 import threads.ExportadorCSV;
 
@@ -28,6 +25,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		Group group = new Group();
 		Scene scene = new Scene(group, 690, 510);
+
+		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 		
 		ObservableList<Produto> produtos = new ProdutoDAO().lista();
 		
@@ -52,19 +51,15 @@ public class Main extends Application {
 		tableView.getColumns().addAll(nomeColumn, descricaoColumn, valorColumn, isbnColumn);
 		
 		VBox vBox = new VBox(tableView);
-		vBox.setPadding(new Insets(70,0,0,10));
+		vBox.setId("vbox");
 		
 		Label label = new Label("Listagem de Livros");
-		label.setFont(Font.font("Lucida grande", FontPosture.REGULAR, 30));
-		label.setPadding(new Insets( 20, 0, 10, 10));
+		label.setId("label-listagem");
 		
 		Label progresso = new Label();
-		progresso.setLayoutX(385);
-		progresso.setLayoutY(30);
+		label.setId("label-progresso");
 		
 		Button button = new Button("Exportando CSV");
-		button.setLayoutX(575);
-		button.setLayoutY(25);
 		button.setOnAction(event -> {
 			Task<Void> task = new Task<Void>() {
 				@Override
@@ -81,8 +76,14 @@ public class Main extends Application {
 			
 			new Thread(task).start();
 		});
+		
+		double valorTotal = produtos.stream().mapToDouble(Produto::getValor).sum();
 			
-		group.getChildren().addAll(label, vBox, button, progresso);
+		Label labelFooter = new Label(String.format("Você tem R$%.2f em estoque,"
+				+ " com um total de %d produtos", valorTotal, produtos.size()));
+		labelFooter.setId("label-footer");
+		
+		group.getChildren().addAll(label, vBox, button, progresso, labelFooter);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("Sistema da livraria com Java FX");
 		
