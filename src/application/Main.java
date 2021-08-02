@@ -57,7 +57,7 @@ public class Main extends Application {
 		label.setId("label-listagem");
 		
 		Label progresso = new Label();
-		label.setId("label-progresso");
+		progresso.setId("label-progresso");
 		
 		Button button = new Button("Exportando CSV");
 		button.setOnAction(event -> {
@@ -80,7 +80,7 @@ public class Main extends Application {
 		double valorTotal = produtos.stream().mapToDouble(Produto::getValor).sum();
 			
 		Label labelFooter = new Label(String.format("Você tem R$%.2f em estoque,"
-				+ " com um total de %d produtos", valorTotal, produtos.size()));
+				+ " com um total de %d produtos.", valorTotal, produtos.size()));
 		labelFooter.setId("label-footer");
 		
 		group.getChildren().addAll(label, vBox, button, progresso, labelFooter);
