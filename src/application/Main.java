@@ -22,7 +22,7 @@ import threads.ExportadorCSV;
 public class Main extends Application {
 	
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws Exception {
 		Group group = new Group();
 		Scene scene = new Scene(group, 690, 510);
 
@@ -32,21 +32,13 @@ public class Main extends Application {
 		
 		TableView tableView = new TableView<>(produtos);
 		
-		TableColumn nomeColumn = new TableColumn<>("Nome");
-		nomeColumn.setMinWidth(180);
-		nomeColumn.setCellValueFactory( new PropertyValueFactory("nome"));
+		TableColumn nomeColumn = criarColuna("Nome", 180, "nome");
 		
-		TableColumn descricaoColumn = new TableColumn("Descrição");
-		descricaoColumn.setMinWidth(230);
-		descricaoColumn.setCellValueFactory( new PropertyValueFactory("descricao"));
+		TableColumn descricaoColumn = criarColuna("Descrição", 230, "descricao");
 		
-		TableColumn valorColumn = new TableColumn("Valor");
-		valorColumn.setMinWidth(60);
-		valorColumn.setCellValueFactory( new PropertyValueFactory("valor"));
+		TableColumn valorColumn = criarColuna("Valor", 60, "valor");
 
-		TableColumn isbnColumn = new TableColumn("ISBN");
-		isbnColumn.setMinWidth(180);
-		isbnColumn.setCellValueFactory( new PropertyValueFactory<>("isbn"));
+		TableColumn isbnColumn = criarColuna("ISBN", 180, "isbn");
 		
 		tableView.getColumns().addAll(nomeColumn, descricaoColumn, valorColumn, isbnColumn);
 		
@@ -88,6 +80,13 @@ public class Main extends Application {
 		primaryStage.setTitle("Sistema da livraria com Java FX");
 		
 		primaryStage.show();
+	}
+	
+	private TableColumn<Produto, String> criarColuna(String titulo, int largura, String atributo){
+		TableColumn<Produto, String> column = new TableColumn<Produto, String>(titulo);
+		column.setMinWidth(largura);
+		column.setCellValueFactory( new PropertyValueFactory<Produto, String>(atributo));
+		return column;
 	}
 	
 	private void dormePorVInteSegundos() {
